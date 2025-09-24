@@ -1,1 +1,5 @@
-first use command create-next-app@latest
+Project setup
+first use command npx create-next-app@latest ./
+then remove favcon ion unncessary 
+now ready to install shadcn Ui which is modest version of tailwind css
+Authenticcation routes
