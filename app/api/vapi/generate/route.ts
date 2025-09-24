@@ -1,8 +1,11 @@
 import { generateText } from "ai";
 import { google } from "@ai-sdk/google";
-
-import { db } from "@/firebase/admin";
 import { getRandomInterviewCover } from "@/lib/utils";
+import { db } from "@/firebase/admin";
+
+export async function GET() {
+  return Response.json({ success: true, data: "Thank you" }, { status: 200 });
+}
 
 export async function POST(request: Request) {
   const { type, role, level, techstack, amount, userid } = await request.json();
@@ -21,14 +24,13 @@ export async function POST(request: Request) {
         Return the questions formatted like this:
         ["Question 1", "Question 2", "Question 3"]
         
-        Thank you! <3
-    `,
+        Thank you! <3`,
     });
 
     const interview = {
-      role: role,
-      type: type,
-      level: level,
+      role,
+      type,
+      level,
       techstack: techstack.split(","),
       questions: JSON.parse(questions),
       userId: userid,
@@ -38,14 +40,9 @@ export async function POST(request: Request) {
     };
 
     await db.collection("interviews").add(interview);
-
-    return Response.json({ success: true }, { status: 200 });
+    return Response.json({ success: true, data: interview }, { status: 200 })
   } catch (error) {
-    console.error("Error:", error);
+    console.log(error);
     return Response.json({ success: false, error: error }, { status: 500 });
   }
-}
-
-export async function GET() {
-  return Response.json({ success: true, data: "Thank you!" }, { status: 200 });
 }
